@@ -18,7 +18,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        super.configure(auth);
+//        super.configure(auth);
+        // as we don't use the super configure, no password generated
+        // if we run this we will get error saying no password encoder mapped
+        auth.inMemoryAuthentication().withUser("Jenner").password("1234").authorities("USER", "ADMIN");
     }
 
 //    configure(HttpSecurity http) Endpoint used in this method ignores
@@ -33,5 +36,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         // any request that comes to this app should be authenticated
         http.authorizeRequests().anyRequest().authenticated(); // 403 forbidden status
+
+        // show form login page to user
+        http.formLogin();
     }
 }
