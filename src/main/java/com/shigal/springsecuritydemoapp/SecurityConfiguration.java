@@ -4,6 +4,7 @@ package com.shigal.springsecuritydemoapp;/*
  *
  */
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -11,6 +12,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
@@ -21,7 +24,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //        super.configure(auth);
         // as we don't use the super configure, no password generated
         // if we run this we will get error saying no password encoder mapped
-        auth.inMemoryAuthentication().withUser("Jenner").password("1234").authorities("USER", "ADMIN");
+        auth.inMemoryAuthentication().withUser("Jenner").password(passwordEncoder().encode("1234")).authorities("USER", "ADMIN");
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
     }
 
 //    configure(HttpSecurity http) Endpoint used in this method ignores
