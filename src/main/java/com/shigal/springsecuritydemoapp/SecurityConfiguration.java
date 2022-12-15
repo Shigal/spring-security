@@ -29,6 +29,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         // any request that comes to this app ->permit all
         // go to localhost:8080, now you won't see the form login page
         // open access to the app
-        http.authorizeRequests().anyRequest().permitAll();
+//        http.authorizeRequests().anyRequest().permitAll();
+
+        // any request that comes to this app should be authenticated
+        http.authorizeRequests().anyRequest().authenticated(); // 403 forbidden status
     }
 }
