@@ -47,5 +47,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         // show form login page to user
         http.formLogin();
+        // enable basic auth
+        http.httpBasic();
     }
 }
