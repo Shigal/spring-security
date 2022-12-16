@@ -44,3 +44,10 @@ csrf
 - creates a form with hidden details which get submitted when the page loads
 - in this way attacker can make you transfer money to his account with a click
 - to avoid these attacks we have csrf token which is a secret the server generates and sends it to the client
+
+JWT
+- user logIns and it checks the identity of the user
+- and it grants permissions to access the resources
+- number of ways to do authorization
+- when we are calling an API we pass username and password, have to do it every time
+- for that we generate a token to do authorization on the server
