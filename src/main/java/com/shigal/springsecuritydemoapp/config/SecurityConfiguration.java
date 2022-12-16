@@ -1,9 +1,11 @@
-package com.shigal.springsecuritydemoapp;/*
+package com.shigal.springsecuritydemoapp.config;/*
  *
  * @author Lawshiga
  *
  */
 
+import com.shigal.springsecuritydemoapp.service.CustomUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,12 +21,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private CustomUserService customUserService;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 //        super.configure(auth);
         // as we don't use the super configure, no password generated
         // if we run this we will get error saying no password encoder mapped
         auth.inMemoryAuthentication().withUser("Jenner").password(passwordEncoder().encode("1234")).authorities("USER", "ADMIN");
+
+        // database authentication
+        auth.userDetailsService(customUserService).passwordEncoder(passwordEncoder());
     }
 
     @Bean
@@ -43,11 +51,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //        http.authorizeRequests().anyRequest().permitAll();
 
         // any request that comes to this app should be authenticated
-        http.authorizeRequests().anyRequest().authenticated(); // 403 forbidden status
+//        http.authorizeRequests().anyRequest().authenticated(); // 403 forbidden status
+
+        http.authorizeRequests((request) -> request.antMatchers("/h2-console/**").permitAll().anyRequest().authenticated()).httpBasic();
 
         // show form login page to user
         http.formLogin();
         // enable basic auth
-        http.httpBasic();
+//        http.httpBasic();
+
+
+        // h2 - console
+        http.csrf().disable().headers().frameOptions().disable();
     }
 }
