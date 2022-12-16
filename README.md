@@ -11,3 +11,36 @@ Basic Auth
 - and it will send to the application the token
 - in response header we will get the basic authentication token
 - also we should enable basic authentication in our spring application [ http.httpBasic();]
+
+
+Database Auth
+- create 2 entities User and Authority and Join tables
+- to handle User, implements UserDetailsService
+- create a repo
+- to hardcode the user details use init() method with @PostConstruct
+- we already added the h2-database, now we enable it in application.yml
+- can view the database by going to the link localhost:8080/h2-console
+- but it says forbidden
+- to make connection we need to give access to this url in config(HttpSecurity)
+- but it says forbidden, so we need to disable csrf
+
+H2-database
+- go to console localhost:8080/h2-console
+- paste the jdbc url
+- view all the tables created 
+
+
+Ant Matcher
+? matches one character
+* matches zero or more characters
+  ** matches zero or more directories in a path
+  
+
+csrf
+- Cross Site Request Forgery
+- here, if we say we are making a money transfer in a bank app
+- attacker creates the same page and input his account number and 
+- link it to an image tag that automatically loads or 
+- creates a form with hidden details which get submitted when the page loads
+- in this way attacker can make you transfer money to his account with a click
+- to avoid these attacks we have csrf token which is a secret the server generates and sends it to the client
